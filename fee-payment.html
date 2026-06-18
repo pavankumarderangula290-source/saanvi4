@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Fee Payment - Saanvi International School</title>
+  <link rel="stylesheet" href="portal.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <!-- jsPDF & AutoTable for robust PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body class="portal-page">
+
+  <header class="portal-header">
+    <a href="index.html" class="portal-logo">
+      <img src="images/logo.jpg" alt="Logo" width="40" height="40">
+      Saanvi International School
+    </a>
+    <div class="portal-nav">
+      <a href="index.html" class="btn btn-outline">Back to Home</a>
+    </div>
+  </header>
+
+  <main class="portal-main" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
+    <div class="portal-card" style="margin-bottom: 2rem;">
+      <div class="card-header">
+        <h2>Online Fee Payment Portal</h2>
+        <p style="color: var(--portal-muted);">Enter your Student ID to view and pay pending fees.</p>
+      </div>
+      <div style="padding: 1.5rem; display: flex; gap: 1rem;">
+        <input type="text" id="studentIdInput" class="form-control" placeholder="e.g. STU12345" style="flex: 1;">
+        <button onclick="fetchFees()" class="btn btn-primary">Search Fees</button>
+      </div>
+    </div>
+
+    <div id="feeResultsContainer" style="display: none;">
+      <h3 style="margin-bottom: 1rem;">Fee Details</h3>
+      <div id="feeList" style="display: flex; flex-direction: column; gap: 1rem;">
+        <!-- Fees will be rendered here -->
+      </div>
+    </div>
+  </main>
+
+
+
+  <script src="fee-payment.js"></script>
+</body>
+</html>

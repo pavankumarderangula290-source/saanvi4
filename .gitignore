@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Keep database for demo purposes
+# database.sqlite
+
+# Keep uploads folder but ignore contents (except .gitkeep if we add one)
+uploads/*
+!uploads/.gitkeep

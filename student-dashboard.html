@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard - Saanvi International School</title>
+  <link rel="stylesheet" href="portal.css">
+  <style>
+    .performance-card { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem; background: #f8fafc; border-radius: 8px; border: 1px solid var(--portal-border); margin-bottom: 1.5rem; }
+    .score-circle { width: 80px; height: 80px; border-radius: 50%; background: var(--portal-primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; flex-shrink: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .score-info { flex: 1; margin-right: 1.5rem; }
+  </style>
+</head>
+<body class="portal-page">
+
+  <header class="portal-header">
+    <div class="portal-logo">
+      <img src="images/logo.jpg" alt="Logo" width="40" height="40">
+      Student Portal
+    </div>
+    <div class="portal-nav">
+      <button onclick="openPasswordModal()" class="btn btn-outline">Change Passcode</button>
+      <button onclick="sessionManager.clearSession()" class="btn btn-outline">Logout</button>
+    </div>
+  </header>
+
+  <main class="portal-main">
+    <div class="dashboard-header">
+      <div>
+        <h1 id="welcome-message">Welcome</h1>
+        <p style="color: var(--portal-muted);">View your academic performance and exam results</p>
+      </div>
+    </div>
+
+    <div class="dashboard-grid has-sidebar">
+      <!-- Main Content -->
+      <div>
+        <div class="portal-card" style="margin-bottom: 1.5rem;">
+          <div class="card-header">
+            <h3>Attendance Overview</h3>
+          </div>
+          <div style="display: flex; gap: 2rem; align-items: center; justify-content: center; padding: 2rem;">
+            <div class="score-circle" id="attendance-percentage" style="width: 120px; height: 120px; font-size: 2rem;">0%</div>
+            <div>
+              <p style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;" id="attendance-status">Loading...</p>
+              <p style="color: var(--portal-muted);">Total Sessions: <strong id="attendance-total">0</strong></p>
+              <p style="color: var(--portal-muted);">Sessions Attended: <strong id="attendance-present" style="color: var(--portal-success);">0</strong></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="portal-card">
+          <div class="card-header">
+            <h3>Exam Results</h3>
+          </div>
+          <div id="exams-container">
+            <!-- Exam results rendered here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <div class="portal-card" style="background: #f8fafc; text-align: center;">
+          <h3>Student Profile</h3>
+          <div style="margin-top: 1rem; margin-bottom: 1rem;">
+            <img id="profile-image" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; display: none; border: 2px solid var(--portal-border);">
+          </div>
+          <div style="color: var(--portal-muted); font-size: 0.875rem; text-align: left;">
+            <p style="margin-bottom: 0.5rem"><strong>Student ID:</strong> <span id="profile-id"></span></p>
+            <p style="margin-bottom: 0.5rem"><strong>Name:</strong> <span id="profile-name"></span></p>
+            <p style="margin-bottom: 0.5rem"><strong>Class:</strong> <span id="profile-class"></span></p>
+            <p><strong>Section:</strong> <span id="profile-section"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Password Change Modal -->
+  <div id="password-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="pwd-modal-title">Change Passcode</h3>
+        <button class="modal-close" id="pwd-close-btn" onclick="closeModal('password-modal')">&times;</button>
+      </div>
+      <form id="password-form">
+        <div class="modal-body">
+          <div id="password-alert" class="alert alert-error">Please change your default passcode before continuing.</div>
+          <div class="form-group">
+            <label class="form-label">New Passcode</label>
+            <input type="password" id="new-passcode" class="form-control" required minlength="4">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm New Passcode</label>
+            <input type="password" id="confirm-passcode" class="form-control" required minlength="4">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="pwd-cancel-btn" onclick="closeModal('password-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Passcode</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="portal.js"></script>
+  <script>
+    // Protect page
+    const session = sessionManager.requireAuth('student');
+    let studentProfile = null;
+
+    async function loadData() {
+      studentProfile = await studentApi.getProfile(session.id);
+      
+      // Update Profile UI
+      document.getElementById('welcome-message').textContent = `Welcome, ${studentProfile.name}`;
+      document.getElementById('profile-id').textContent = studentProfile.id;
+      document.getElementById('profile-name').textContent = studentProfile.name;
+      document.getElementById('profile-class').textContent = studentProfile.class;
+      document.getElementById('profile-section').textContent = studentProfile.section || 'A';
+
+      const profileImage = document.getElementById('profile-image');
+      if (studentProfile.imagePath) {
+        profileImage.src = `/uploads/${studentProfile.imagePath}`;
+        profileImage.style.display = 'inline-block';
+      }
+
+      // Render Exams
+      const container = document.getElementById('exams-container');
+      if (!studentProfile.exams || studentProfile.exams.length === 0) {
+        container.innerHTML = `<p style="text-align: center; color: var(--portal-muted); padding: 2rem 0;">No exam results published yet.</p>`;
+      } else {
+        // Group exams by subject
+        const subjects = ['English', 'Hindi', 'Maths', 'Science', 'Social'];
+        const examTypes = ['FA1', 'FA2', 'FA3', 'FA4', 'SA1', 'SA2'];
+        
+        const grouped = {};
+        subjects.forEach(sub => grouped[sub] = {});
+        
+        studentProfile.exams.forEach(ex => {
+          if (!grouped[ex.subject]) grouped[ex.subject] = {};
+          grouped[ex.subject][ex.examName] = ex;
+        });
+
+        let tableHtml = `
+          <p class="mobile-hint" style="display: none; font-size: 0.75rem; color: var(--portal-muted); margin-bottom: 0.5rem;">&larr; Swipe left/right to see all exams &rarr;</p>
+          <div class="table-responsive" style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--portal-border);">
+            <table class="portal-table" style="min-width: 650px; margin: 0; background: #fff;">
+              <thead style="background: #f8fafc;">
+                <tr>
+                  <th style="padding: 1rem; border-bottom: 1px solid var(--portal-border);">Subject</th>
+                  ${examTypes.map(e => `<th style="padding: 1rem; border-bottom: 1px solid var(--portal-border); text-align: center;">${e}</th>`).join('')}
+                  <th style="padding: 1rem; border-bottom: 1px solid var(--portal-border);">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        const examTotals = {};
+        examTypes.forEach(e => examTotals[e] = { obtained: 0, total: 0, count: 0 });
+
+        subjects.forEach(sub => {
+          tableHtml += `<tr><td style="padding: 1rem; border-bottom: 1px solid var(--portal-border);"><strong>${sub}</strong></td>`;
+          let rowRemarks = [];
+          examTypes.forEach(e => {
+            const ex = grouped[sub][e];
+            if (ex) {
+              examTotals[e].obtained += ex.marksObtained;
+              examTotals[e].total += ex.totalMarks;
+              examTotals[e].count += 1;
+              
+              const percentage = Math.round((ex.marksObtained / ex.totalMarks) * 100);
+              let color = 'inherit';
+              if (percentage < 40) color = 'var(--portal-danger)';
+              else if (percentage >= 90) color = 'var(--portal-success)';
+              
+              tableHtml += `<td style="padding: 1rem; border-bottom: 1px solid var(--portal-border); text-align: center; color: ${color};"><strong>${ex.marksObtained}</strong><span style="font-size:0.75rem; color:var(--portal-muted);">/${ex.totalMarks}</span></td>`;
+              if (ex.remarks) rowRemarks.push(`<strong>${e}:</strong> ${ex.remarks}`);
+            } else {
+              tableHtml += `<td style="padding: 1rem; border-bottom: 1px solid var(--portal-border); text-align: center; color:var(--portal-muted);">-</td>`;
+            }
+          });
+          tableHtml += `<td style="padding: 1rem; border-bottom: 1px solid var(--portal-border); font-size: 0.75rem; color: var(--portal-muted);">${rowRemarks.join('<br>') || '-'}</td></tr>`;
+        });
+
+        let totalRowHtml = `<tr><td style="padding: 1rem; border-bottom: 1px solid var(--portal-border); background: #f8fafc; color: var(--color-primary);"><strong>Total Marks</strong></td>`;
+        let percentRowHtml = `<tr><td style="padding: 1rem; border-bottom: 1px solid var(--portal-border); background: #f8fafc; color: var(--color-primary);"><strong>Percentage</strong></td>`;
+
+        examTypes.forEach(e => {
+            const t = examTotals[e];
+            if (t.count > 0) {
+                totalRowHtml += `<td style="padding: 1rem; border-bottom: 1px solid var(--portal-border); text-align: center; background: #f8fafc;"><strong>${t.obtained}</strong><span style="font-size:0.75rem; color:var(--portal-muted);">/${t.total}</span></td>`;
+                
+                const pct = Math.round((t.obtained / t.total) * 100);
+                let color = 'inherit';
+                if (pct < 40) color = 'var(--portal-danger)';
+                else if (pct >= 90) color = 'var(--portal-success)';
+                percentRowHtml += `<td style="padding: 1rem; border-bottom: 1px solid var(--portal-border); text-align: center; background: #f8fafc; color: ${color};"><strong>${pct}%</strong></td>`;
+            } else {
+                totalRowHtml += `<td style="padding: 1rem; border-bottom: 1px solid var(--portal-border); text-align: center; background: #f8fafc; color:var(--portal-muted);">-</td>`;
+                percentRowHtml += `<td style="padding: 1rem; border-bottom: 1px solid var(--portal-border); text-align: center; background: #f8fafc; color:var(--portal-muted);">-</td>`;
+            }
+        });
+
+        totalRowHtml += `<td style="padding: 1rem; border-bottom: 1px solid var(--portal-border); background: #f8fafc;"></td></tr>`;
+        percentRowHtml += `<td style="padding: 1rem; border-bottom: 1px solid var(--portal-border); background: #f8fafc;"></td></tr>`;
+
+        tableHtml += totalRowHtml + percentRowHtml + `</tbody></table></div>`;
+        container.innerHTML = tableHtml;
+
+        // Show swipe hint only on mobile
+        if (window.innerWidth < 768) {
+          const hint = container.querySelector('.mobile-hint');
+          if (hint) hint.style.display = 'block';
+        }
+      }
+
+      // Render Attendance
+      try {
+        const attData = await studentApi.getAttendance(studentProfile.id);
+        const percentEl = document.getElementById('attendance-percentage');
+        percentEl.textContent = attData.percentage + '%';
+        
+        if (attData.percentage >= 75) {
+          percentEl.style.background = 'var(--portal-success)';
+          document.getElementById('attendance-status').textContent = 'Great Attendance!';
+        } else if (attData.percentage >= 60) {
+          percentEl.style.background = '#f59e0b'; // orange/warning
+          document.getElementById('attendance-status').textContent = 'Needs Improvement';
+        } else {
+          percentEl.style.background = 'var(--portal-danger)';
+          document.getElementById('attendance-status').textContent = 'Low Attendance Warning';
+        }
+
+        document.getElementById('attendance-total').textContent = attData.total;
+        document.getElementById('attendance-present').textContent = attData.present;
+      } catch (e) {
+        document.getElementById('attendance-status').textContent = 'Unable to fetch attendance.';
+      }
+
+      // Check first login
+      if (studentProfile.isFirstLogin) {
+        document.getElementById('password-alert').style.display = 'block';
+        document.getElementById('pwd-cancel-btn').style.display = 'none';
+        document.getElementById('pwd-close-btn').style.display = 'none';
+        openModal('password-modal');
+      }
+    }
+
+    // Modal Utils
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { 
+      if (id === 'password-modal' && studentProfile.isFirstLogin) return; // Prevent closing if first login
+      document.getElementById(id).classList.remove('active'); 
+    }
+
+    // Password Form
+    function openPasswordModal() {
+      document.getElementById('password-form').reset();
+      document.getElementById('password-alert').style.display = 'none';
+      document.getElementById('pwd-cancel-btn').style.display = 'inline-block';
+      document.getElementById('pwd-close-btn').style.display = 'block';
+      openModal('password-modal');
+    }
+
+    document.getElementById('password-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const p1 = document.getElementById('new-passcode').value;
+      const p2 = document.getElementById('confirm-passcode').value;
+      if (p1 !== p2) {
+        const alert = document.getElementById('password-alert');
+        alert.textContent = "Passcodes do not match!";
+        alert.className = "alert alert-error";
+        alert.style.display = 'block';
+        return;
+      }
+      await studentApi.updatePasscode(studentProfile.id, p1);
+      closeModal('password-modal');
+      loadData(); 
+      alert("Passcode updated successfully!");
+    });
+
+    // Initial Load
+    loadData();
+  </script>
+</body>
+</html>

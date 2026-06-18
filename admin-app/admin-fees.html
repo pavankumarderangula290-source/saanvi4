@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Fee Dashboard - Saanvi International School</title>
+  <link rel="stylesheet" href="/portal.css">
+</head>
+<body class="portal-page">
+
+  <header class="portal-header">
+    <div class="portal-logo">
+      <img src="/images/logo.jpg" alt="Logo" width="40" height="40">
+      Admin Fee Dashboard
+    </div>
+    <div class="portal-nav">
+      <a href="dashboard.html" class="btn btn-outline">Back to Main Dashboard</a>
+      <button onclick="sessionManager.clearSession()" class="btn btn-outline">Logout</button>
+    </div>
+  </header>
+
+  <main class="portal-main" style="max-width: 1000px; margin: 2rem auto; padding: 0 1rem;">
+    
+    <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+      <div>
+        <h1>Fee Management</h1>
+        <p style="color: var(--portal-muted);">Overview of school-wide fee collection and assignments</p>
+      </div>
+      <div>
+        <a href="add-fee.html" class="btn btn-primary" style="text-decoration:none;">+ Assign New Fee</a>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+      <div class="portal-card" style="text-align: center; padding: 2rem;">
+        <h3 style="margin-bottom: 0.5rem; color: var(--portal-muted);">Total Fees Pending</h3>
+        <h2 id="stats-fees-pending" style="font-size: 3rem; color: var(--portal-danger);">₹0</h2>
+      </div>
+      <div class="portal-card" style="text-align: center; padding: 2rem;">
+        <h3 style="margin-bottom: 0.5rem; color: var(--portal-muted);">Total Fees Collected</h3>
+        <h2 id="stats-fees-collected" style="font-size: 3rem; color: var(--portal-success);">₹0</h2>
+      </div>
+    </div>
+
+    <div class="portal-card">
+      <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <h3 style="margin:0;">Fee Records</h3>
+        <input type="text" id="fees-table-search" placeholder="Search by ID or Name..." class="form-control" style="width: 250px; padding: 0.5rem; border:1px solid #ccc; border-radius:4px;" onkeyup="filterFeesTable()">
+      </div>
+      <div class="table-responsive">
+        <table class="portal-table">
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>Student Name</th>
+              <th>Class & Section</th>
+              <th>Amount</th>
+              <th>Due Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="fees-table-body">
+            <!-- Fees will be rendered here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="/portal.js"></script>
+  <script src="/admin-app/admin-fees.js"></script>
+</body>
+</html>

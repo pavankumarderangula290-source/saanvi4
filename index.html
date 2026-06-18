@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Saanvi International School — CBSE Affiliated (Affiliation No: 130464), Rajampet, Kadapa, Andhra Pradesh. Co-educational Day School from Nursery to Class 12. Knowledge is soul." />
+  <meta name="keywords" content="Saanvi International School, CBSE school Rajampet, Kadapa school, best school Andhra Pradesh, Boyanapalli school" />
+  <meta name="author" content="Saanvi International School" />
+  <meta property="og:title" content="Saanvi International School — Knowledge is Soul" />
+  <meta property="og:description" content="CBSE Affiliated co-educational day school in Rajampet, Kadapa, Andhra Pradesh. Nursery to Class 12." />
+  <meta property="og:type" content="website" />
+  <title>Saanvi International School — Knowledge is Soul</title>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       BACKGROUND LAYER — Three.js Canvas
+  ═══════════════════════════════════════════ -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════ -->
+  <header class="site-header" role="banner">
+    <nav class="nav-inner glass-pill" aria-label="Primary navigation">
+      <a href="#hero" class="nav-logo" aria-label="Saanvi International School home">
+        <span class="logo-mark">
+          <img src="images/logo.jpg" alt="Saanvi International School logo" class="logo-img" width="36" height="36" />
+        </span>
+        <span class="logo-text">Saanvi International</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#vision" class="nav-link">Vision</a></li>
+        <li><a href="#campus" class="nav-link">Campus</a></li>
+        <li><a href="#leadership" class="nav-link">Leadership</a></li>
+        <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+        <li><a href="staff-login.html" class="nav-link">Staff Portal</a></li>
+        <li><a href="student-login.html" class="nav-link">Student Portal</a></li>
+        <li><a href="fee-payment.html" class="nav-link" style="color: #ff9800; font-weight: bold;">Pay Fees</a></li>
+        <li><a href="#contact" class="nav-link nav-link--cta">Admissions</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <!-- Mobile drawer -->
+    <div id="mobile-nav" class="mobile-nav glass-deep" role="dialog" aria-modal="true" aria-label="Mobile navigation" hidden>
+      <ul role="list">
+        <li><a href="#vision" class="mobile-nav-link">Vision</a></li>
+        <li><a href="#campus" class="mobile-nav-link">Campus</a></li>
+        <li><a href="#leadership" class="mobile-nav-link">Leadership</a></li>
+        <li><a href="gallery.html" class="mobile-nav-link">Gallery</a></li>
+        <li><a href="staff-login.html" class="mobile-nav-link">Staff Portal</a></li>
+        <li><a href="student-login.html" class="mobile-nav-link">Student Portal</a></li>
+        <li><a href="fee-payment.html" class="mobile-nav-link" style="color: #ff9800; font-weight: bold;">Pay Fees</a></li>
+        <li><a href="#contact" class="mobile-nav-link">Admissions</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 1 — HERO
+    ═══════════════════════════════════════════ -->
+    <section id="hero" class="section-hero" aria-labelledby="hero-heading">
+      <div class="hero-inner">
+
+        <!-- CBSE badge pill -->
+        <div class="hero-badge glass-pill-sm gsap-reveal" aria-label="CBSE Affiliated school">
+          <span class="badge-dot" aria-hidden="true"></span>
+          <span class="badge-text">CBSE Affiliated · No. 130464</span>
+        </div>
+
+        <!-- School name -->
+        <h1 id="hero-heading" class="hero-title">
+          <span class="hero-title__line gsap-reveal-line" aria-hidden="true">Saanvi</span>
+          <span class="hero-title__line hero-title__line--indent gsap-reveal-line" aria-hidden="true">International</span>
+          <span class="hero-title__line gsap-reveal-line" aria-hidden="true">School.</span>
+          <span class="sr-only">Saanvi International School</span>
+        </h1>
+
+        <!-- Motto -->
+        <p class="hero-motto gsap-reveal" aria-label="School motto: Knowledge is Soul">
+          <span class="motto-divider" aria-hidden="true">—</span>
+          <em>Knowledge is Soul</em>
+        </p>
+
+        <!-- Sub-descriptor -->
+        <p class="hero-descriptor gsap-reveal">
+          Co-educational Day School &nbsp;·&nbsp; Nursery to Class XII &nbsp;·&nbsp; Est. 2015
+        </p>
+
+        <!-- CTA group -->
+        <div class="hero-cta-group gsap-reveal" role="group" aria-label="Call to action buttons">
+          <a href="#contact" class="btn-primary glass-pill-btn">
+            Apply for Admission
+            <svg class="btn-arrow" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="tel:+919963657658" class="btn-secondary glass-pill-btn">
+            <svg class="btn-icon" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 2.5C2 2.224 2.224 2 2.5 2h2.72a.5.5 0 0 1 .487.386l.816 3.265a.5.5 0 0 1-.146.497L4.9 7.1a9.065 9.065 0 0 0 3.999 4l.952-1.476a.5.5 0 0 1 .497-.146l3.265.816A.5.5 0 0 1 14 10.78V13.5a.5.5 0 0 1-.5.5C6.044 14 2 9.956 2 2.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            </svg>
+            +91 99636 57658
+          </a>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="hero-scroll-indicator gsap-reveal" aria-hidden="true">
+          <div class="scroll-mouse">
+            <div class="scroll-wheel"></div>
+          </div>
+          <span>Scroll to explore</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION - NOTICE BOARD
+    ═══════════════════════════════════════════ -->
+    <section id="noticeboard" style="padding: 4rem 2rem; background: var(--color-bg);">
+      <div class="section-container" style="max-width: 800px; margin: 0 auto;">
+        <div class="section-eyebrow gsap-reveal">
+          <span class="eyebrow-line" aria-hidden="true"></span>
+          <span>Digital Notice Board</span>
+        </div>
+        <h2 class="section-title gsap-reveal" style="font-size: 2rem; margin-bottom: 2rem;">Latest Announcements</h2>
+        <div id="announcements-container" style="display: flex; flex-direction: column; gap: 1rem;">
+           <p style="color: var(--color-text-muted);">Loading announcements...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 2 — VISION & PHILOSOPHY
+    ═══════════════════════════════════════════ -->
+    <section id="vision" class="section-vision" aria-labelledby="vision-heading">
+      <div class="section-container">
+
+        <div class="section-eyebrow gsap-reveal">
+          <span class="eyebrow-line" aria-hidden="true"></span>
+          <span>Our Philosophy</span>
+        </div>
+
+        <h2 id="vision-heading" class="section-title gsap-reveal">
+          Shaping minds.<br />
+          <span class="title-muted">Building futures.</span>
+        </h2>
+
+        <div class="vision-grid">
+
+          <!-- Vision Statement Card -->
+          <article class="vision-card glass-card gsap-card" aria-labelledby="vision-card-heading">
+            <div class="card-glyph" aria-hidden="true">01</div>
+            <h3 id="vision-card-heading" class="card-title">Our Vision</h3>
+            <p class="card-body">To infuse the quest for learning in every student as well as inculcate high moral values. We are committed to continuous and comprehensive development of each student — intellectually, morally, and physically.</p>
+          </article>
+
+          <!-- Curriculum Card -->
+          <article class="vision-card glass-card gsap-card" aria-labelledby="curriculum-card-heading">
+            <div class="card-glyph" aria-hidden="true">02</div>
+            <h3 id="curriculum-card-heading" class="card-title">Competitive Curriculum</h3>
+            <p class="card-body">Our CBSE curriculum is purposefully designed not just to educate, but to actively prepare students for competitive examinations — JEE, NEET, and beyond. 100% of our senior faculty hold Master's Degrees.</p>
+          </article>
+
+          <!-- Campus Card -->
+          <article class="vision-card glass-card gsap-card" aria-labelledby="campus-card-heading">
+            <div class="card-glyph" aria-hidden="true">03</div>
+            <h3 id="campus-card-heading" class="card-title">Smart Campus</h3>
+            <p class="card-body">Spread across a verdant 3-acre campus on Kadapa–Tirupati Road, our facilities include interactive smartboards, advanced science and computer laboratories, and dedicated sports fitness zones.</p>
+          </article>
+
+          <!-- Values Card — wide -->
+          <article class="vision-card vision-card--wide glass-card gsap-card" aria-labelledby="values-card-heading">
+            <div class="card-glyph" aria-hidden="true">04</div>
+            <h3 id="values-card-heading" class="card-title">Holistic Development</h3>
+            <p class="card-body">Managed by Sri Annamaiah Vidyaniketan Society, Saanvi International School has been committed since 2015 to nurturing well-rounded individuals. We believe that academic rigour and moral integrity are inseparable — both are cultivated with equal intentionality at every stage of a student's journey.</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 3 — CAMPUS HIGHLIGHTS
+    ═══════════════════════════════════════════ -->
+    <section id="campus" class="section-campus" aria-labelledby="campus-heading">
+      <div class="section-container">
+
+        <div class="section-eyebrow gsap-reveal">
+          <span class="eyebrow-line" aria-hidden="true"></span>
+          <span>Campus Life</span>
+        </div>
+
+        <h2 id="campus-heading" class="section-title gsap-reveal">
+          A world-class<br />
+          <span class="title-muted">learning environment.</span>
+        </h2>
+
+        <div class="campus-stats-row gsap-reveal">
+          <div class="campus-stat glass-stat">
+            <span class="stat-value">3</span>
+            <span class="stat-unit">Acres</span>
+            <span class="stat-label">Lush green campus</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="campus-stat glass-stat">
+            <span class="stat-value">K–12</span>
+            <span class="stat-unit">Grades</span>
+            <span class="stat-label">Nursery to Class XII</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="campus-stat glass-stat">
+            <span class="stat-value">100%</span>
+            <span class="stat-unit">Masters</span>
+            <span class="stat-label">Senior faculty degrees</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="campus-stat glass-stat">
+            <span class="stat-value">2015</span>
+            <span class="stat-unit">Founded</span>
+            <span class="stat-label">A decade of excellence</span>
+          </div>
+        </div>
+
+        <ul class="campus-features-grid" role="list" aria-label="Campus features">
+          <li class="feature-item glass-feature gsap-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Smart Classrooms</h3>
+            <p class="feature-desc">Every classroom is equipped with interactive smartboards enabling dynamic, technology-first pedagogy.</p>
+          </li>
+          <li class="feature-item glass-feature gsap-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Advanced Science Labs</h3>
+            <p class="feature-desc">Fully-equipped Physics, Chemistry, and Biology labs built to exceed CBSE standards and inspire scientific curiosity.</p>
+          </li>
+          <li class="feature-item glass-feature gsap-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="2" y="6" width="8" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="14" y="6" width="8" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M6 12v3M18 12v3M3 18h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Computer Laboratories</h3>
+            <p class="feature-desc">Modern computing labs with high-speed internet, empowering students with essential digital literacy from an early age.</p>
+          </li>
+          <li class="feature-item glass-feature gsap-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Sports & Fitness Zones</h3>
+            <p class="feature-desc">Dedicated outdoor and indoor sports zones that promote physical fitness, teamwork, and a healthy competitive spirit.</p>
+          </li>
+        </ul>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 4 — EXECUTIVE LEADERSHIP
+    ═══════════════════════════════════════════ -->
+    <section id="leadership" class="section-leadership" aria-labelledby="leadership-heading">
+      <div class="section-container">
+
+        <div class="section-eyebrow gsap-reveal">
+          <span class="eyebrow-line" aria-hidden="true"></span>
+          <span>Executive Leadership</span>
+        </div>
+
+        <h2 id="leadership-heading" class="section-title gsap-reveal">
+          Guided by<br />
+          <span class="title-muted">vision &amp; purpose.</span>
+        </h2>
+
+        <div class="leadership-grid">
+
+          <!-- Chairman Card -->
+          <article class="leader-card glass-card-deep gsap-card" aria-labelledby="chairman-name">
+            <div class="leader-image-wrap">
+              <img
+                src="images/27002.jpg"
+                alt="Mr. Konduru Sarath Kumar Raju, Chairman of Saanvi International School"
+                class="leader-image"
+                loading="lazy"
+                width="320"
+                height="320"
+              />
+              <div class="leader-image-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="leader-info">
+              <span class="leader-role">Chairman &amp; Founder</span>
+              <h3 id="chairman-name" class="leader-name">Mr. Konduru Sarath Kumar Raju</h3>
+              <span class="leader-credentials">M.A., B.L.</span>
+              <blockquote class="leader-message">
+                <p>"Education is not merely the transfer of knowledge — it is the foundation of all progress. At Saanvi, we are determined to build an institution where every child discovers their highest potential and emerges as a confident, compassionate contributor to society."</p>
+              </blockquote>
+            </div>
+          </article>
+
+          <!-- Principal Card -->
+          <article class="leader-card glass-card-deep gsap-card" aria-labelledby="principal-name">
+            <div class="leader-image-wrap">
+              <img
+                src="images/27003.jpg"
+                alt="Mr. Madugu Prabhakar, Principal of Saanvi International School"
+                class="leader-image"
+                loading="lazy"
+                width="320"
+                height="320"
+              />
+              <div class="leader-image-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="leader-info">
+              <span class="leader-role">Principal</span>
+              <h3 id="principal-name" class="leader-name">Mr. Madugu Prabhakar</h3>
+              <span class="leader-credentials">M.Sc., B.Ed., M.A. Lit</span>
+              <blockquote class="leader-message">
+                <p>"Academic excellence and character development are not competing goals — they are two sides of the same coin. Our committed faculty guides each student with the understanding that a great education transforms not just careers, but lives."</p>
+              </blockquote>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 5 — CONTACT / ADMISSIONS FOOTER
+    ═══════════════════════════════════════════ -->
+    <section id="contact" class="section-contact" aria-labelledby="contact-heading">
+      <div class="section-container">
+
+        <div class="contact-inner glass-card-deep gsap-reveal">
+
+          <div class="contact-text-group">
+            <div class="section-eyebrow">
+              <span class="eyebrow-line" aria-hidden="true"></span>
+              <span>Admissions Open</span>
+            </div>
+            <h2 id="contact-heading" class="contact-title">
+              Begin your child's<br />journey with us.
+            </h2>
+            <address class="contact-address" aria-label="School address">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 1.5a4.5 4.5 0 0 1 4.5 4.5c0 3-4.5 8.5-4.5 8.5S3.5 9 3.5 6A4.5 4.5 0 0 1 8 1.5Z" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.2"/>
+              </svg>
+              Kadapa–Tirupati Road, Boyanapalli,<br />
+              Rajampet, Kadapa, Andhra Pradesh — 516126
+            </address>
+            <p class="contact-managed">Managed by <strong>Sri Annamaiah Vidyaniketan Society</strong></p>
+          </div>
+
+          <div class="contact-actions-group">
+            <a href="tel:+919963657658" class="btn-primary btn-primary--large glass-pill-btn" aria-label="Call admissions at 9963657658">
+              <svg class="btn-icon" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M2.5 3.125C2.5 2.78 2.78 2.5 3.125 2.5h3.4a.625.625 0 0 1 .609.482l1.02 4.082a.625.625 0 0 1-.183.62L6.125 8.876a11.331 11.331 0 0 0 4.999 5l1.19-1.845a.625.625 0 0 1 .621-.182l4.082 1.02a.625.625 0 0 1 .483.61v3.396a.625.625 0 0 1-.625.625C7.555 17.5 2.5 12.445 2.5 3.125Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+              Call: +91 99636 57658
+            </a>
+
+            <div class="contact-meta">
+              <span class="meta-item">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/>
+                  <path d="M7 4v3.5l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+                Mon – Sat &nbsp;|&nbsp; 8:00 AM – 4:00 PM
+              </span>
+              <span class="meta-item">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M7 1.5A5.5 5.5 0 1 1 1.5 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M1.5 4V7h2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Admissions for 2025–26 are open
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       SITE FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="footer-logo">Saanvi International School</span>
+        <span class="footer-tagline">Knowledge is Soul</span>
+      </div>
+      <div class="footer-right">
+        <p class="footer-copyright">
+          © <span id="footer-year"></span> Saanvi International School.<br />
+          Sri Annamaiah Vidyaniketan Society. All rights reserved.
+        </p>
+        <p class="footer-affiliation">CBSE Affiliation No: 130464</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       ANNOUNCEMENT POPUP MODAL
+  ═══════════════════════════════════════════ -->
+  <div id="announcement-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
+    <div class="modal-content glass-card-deep" style="background: var(--color-surface); padding: 2rem; border-radius: 12px; max-width: 500px; width: 90%; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: translateY(20px); transition: transform 0.3s ease;">
+      <button onclick="closeAnnouncementModal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--color-text-muted);">&times;</button>
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--color-primary);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <h3 style="margin: 0; font-size: 1.25rem;">New Announcement</h3>
+      </div>
+      <h4 id="popup-title" style="margin-bottom: 0.5rem; font-size: 1.1rem;"></h4>
+      <p id="popup-content" style="color: var(--color-text-muted); line-height: 1.5;"></p>
+      <div id="popup-attachment" style="margin-top: 1rem;"></div>
+      <div style="margin-top: 1.5rem; text-align: right;">
+        <button onclick="closeAnnouncementModal()" class="btn-primary glass-pill-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    function closeAnnouncementModal() {
+      const modal = document.getElementById('announcement-modal');
+      modal.style.opacity = '0';
+      modal.querySelector('.modal-content').style.transform = 'translateY(20px)';
+      setTimeout(() => modal.style.display = 'none', 300);
+    }
+
+    async function loadAnnouncements() {
+      try {
+        const res = await fetch('/api/announcements');
+        const data = await res.json();
+        
+        const container = document.getElementById('announcements-container');
+        if (data.length === 0) {
+          container.innerHTML = '<p style="color: var(--color-text-muted);">No announcements at this time.</p>';
+        } else {
+          container.innerHTML = data.map(ann => {
+            const dateStr = new Date(ann.date).toLocaleDateString();
+            let attachmentHtml = '';
+            if (ann.attachment) {
+              const ext = ann.attachment.split('.').pop().toLowerCase();
+              const fileUrl = '/uploads/' + ann.attachment;
+              if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) {
+                attachmentHtml = `<img src="${fileUrl}" alt="Attachment" style="max-width: 100%; border-radius: 8px; margin-top: 1rem;">`;
+              } else {
+                attachmentHtml = `<a href="${fileUrl}" download class="btn-outline glass-pill-btn" style="display: inline-block; margin-top: 1rem; padding: 0.4rem 0.8rem; font-size: 0.8rem;">Download Attachment</a>`;
+              }
+            }
+            
+            return `
+              <div class="glass-card" style="padding: 1.5rem; border-left: 4px solid var(--color-primary);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                  <h3 style="margin: 0; font-size: 1.1rem;">${ann.title}</h3>
+                  <span style="font-size: 0.75rem; color: var(--color-text-muted); background: var(--color-bg); padding: 0.2rem 0.5rem; border-radius: 4px;">${dateStr}</span>
+                </div>
+                <p style="margin: 0; color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.5; white-space: pre-wrap;">${ann.content}</p>
+                ${attachmentHtml}
+              </div>
+            `;
+          }).join('');
+
+          // Handle Popup Logic
+          // Check the newest announcement (data[0]) against localStorage to see if user has dismissed it
+          const newest = data[0];
+          const lastSeenId = localStorage.getItem('last_seen_announcement');
+          
+          if (newest.id !== lastSeenId) {
+            // Show popup
+            document.getElementById('popup-title').textContent = newest.title;
+            document.getElementById('popup-content').textContent = newest.content;
+            
+            let popupAttHtml = '';
+            if (newest.attachment) {
+              const ext = newest.attachment.split('.').pop().toLowerCase();
+              const fileUrl = '/uploads/' + newest.attachment;
+              if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) {
+                popupAttHtml = `<img src="${fileUrl}" alt="Attachment" style="max-width: 100%; border-radius: 8px;">`;
+              } else {
+                popupAttHtml = `<a href="${fileUrl}" download class="btn-primary glass-pill-btn" style="display: inline-block; padding: 0.4rem 0.8rem; font-size: 0.8rem;">Download Attachment</a>`;
+              }
+            }
+            document.getElementById('popup-attachment').innerHTML = popupAttHtml;
+            
+            const modal = document.getElementById('announcement-modal');
+            modal.style.display = 'flex';
+            // slight delay to allow display:flex to apply before transition
+            setTimeout(() => {
+              modal.style.opacity = '1';
+              modal.querySelector('.modal-content').style.transform = 'translateY(0)';
+            }, 50);
+            
+            // Mark as seen
+            localStorage.setItem('last_seen_announcement', newest.id);
+          }
+        }
+      } catch(e) {
+        console.error("Failed to load announcements", e);
+        document.getElementById('announcements-container').innerHTML = '<p style="color: var(--color-text-muted);">Unable to load announcements.</p>';
+      }
+    }
+    
+    // Load announcements when DOM is ready
+    document.addEventListener('DOMContentLoaded', loadAnnouncements);
+  </script>
+</body>
+</html>
+

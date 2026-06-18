@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Login - Saanvi International School</title>
+  <link rel="stylesheet" href="portal.css">
+</head>
+<body class="portal-page">
+
+  <header class="portal-header">
+    <a href="index.html" class="portal-logo">
+      <img src="images/logo.jpg" alt="Logo" width="40" height="40">
+      Saanvi International
+    </a>
+    <a href="index.html" class="btn btn-outline">&larr; Back to Website</a>
+  </header>
+
+  <main class="portal-main">
+    <div class="login-container">
+      <div class="login-header">
+        <h1>Staff Portal</h1>
+        <p>Sign in to manage your classes and students</p>
+      </div>
+
+      <div class="login-form-container" style="padding-top: 1rem;">
+        <!-- Staff Login Form -->
+        <form id="staff-login" class="login-form active">
+          <div id="staff-alert" class="alert"></div>
+          <div class="form-group">
+            <label class="form-label">Secure Passcode</label>
+            <input type="password" id="staff-passcode" class="form-control" placeholder="Enter your passcode" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Access Dashboard</button>
+          <div style="text-align: center; margin-top: 1rem;">
+            <a href="#" onclick="openForgotPasswordModal()" style="color: var(--portal-primary); font-size: 0.875rem;">Forgot Password?</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Forgot Password Modal -->
+  <div id="forgot-password-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Forgot Password</h3>
+        <button class="modal-close" onclick="closeModal('forgot-password-modal')">&times;</button>
+      </div>
+      
+      <!-- Step 1: Request -->
+      <form id="forgot-request-form" style="display: block;">
+        <div class="modal-body">
+          <div id="forgot-alert" class="alert"></div>
+          <p style="font-size: 0.875rem; margin-bottom: 1rem; color: var(--portal-muted);">Enter your ID to request a password reset. A verification code will be sent to the admin.</p>
+          <div class="form-group">
+            <label class="form-label">Staff ID</label>
+            <input type="text" id="forgot-id" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('forgot-password-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Request Code</button>
+        </div>
+      </form>
+
+      <!-- Step 2: Reset -->
+      <form id="forgot-reset-form" style="display: none;">
+        <div class="modal-body">
+          <div id="reset-alert" class="alert alert-success">Request sent! Ask your admin for the verification code.</div>
+          <div class="form-group">
+            <label class="form-label">Verification Code</label>
+            <input type="text" id="reset-code" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Passcode</label>
+            <input type="password" id="reset-new-pass" class="form-control" required minlength="4">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('forgot-password-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Reset Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="portal.js"></script>
+  <script>
+    const session = sessionManager.getSession();
+    if (session && session.type === 'staff') {
+        window.location.href = 'staff-dashboard.html';
+    }
+
+    document.getElementById('staff-login').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const code = document.getElementById('staff-passcode').value;
+      const staff = await staffApi.verifyLogin(code);
+      if (staff) {
+        sessionManager.createSession('staff', staff.id);
+        window.location.href = 'staff-dashboard.html';
+      } else {
+        showAlert('staff-alert', 'Invalid passcode. Please try again.');
+      }
+    });
+
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function openForgotPasswordModal() {
+      document.getElementById('forgot-request-form').reset();
+      document.getElementById('forgot-reset-form').reset();
+      document.getElementById('forgot-request-form').style.display = 'block';
+      document.getElementById('forgot-reset-form').style.display = 'none';
+      document.getElementById('forgot-alert').style.display = 'none';
+      openModal('forgot-password-modal');
+    }
+
+    document.getElementById('forgot-request-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('forgot-id').value;
+      const res = await sharedApi.forgotPassword(id, 'staff');
+      if (res.success) {
+        document.getElementById('forgot-request-form').style.display = 'none';
+        document.getElementById('forgot-reset-form').style.display = 'block';
+        document.getElementById('reset-alert').className = 'alert alert-success';
+        document.getElementById('reset-alert').textContent = 'Request sent! Ask your admin for the verification code.';
+        document.getElementById('reset-alert').style.display = 'block';
+      } else {
+        showAlert('forgot-alert', res.error || 'Failed to send request.');
+      }
+    });
+
+    document.getElementById('forgot-reset-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('forgot-id').value;
+      const code = document.getElementById('reset-code').value;
+      const newPass = document.getElementById('reset-new-pass').value;
+      
+      const res = await sharedApi.resetPassword(id, 'staff', code, newPass);
+      if (res.success) {
+        alert("Password reset successfully. You can now login.");
+        closeModal('forgot-password-modal');
+      } else {
+        document.getElementById('reset-alert').className = 'alert alert-error';
+        document.getElementById('reset-alert').textContent = res.error || 'Invalid code.';
+      }
+    });
+  </script>
+</body>
+</html>

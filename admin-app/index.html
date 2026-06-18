@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Saanvi International School</title>
+  <link rel="stylesheet" href="/portal.css">
+</head>
+<body class="portal-page">
+
+  <header class="portal-header">
+    <a href="/" class="portal-logo">
+      <img src="/images/logo.jpg" alt="Logo" width="40" height="40">
+      Saanvi International
+    </a>
+    <a href="/" class="btn btn-outline">&larr; Back to Website</a>
+  </header>
+
+  <main class="portal-main">
+    <div class="login-container">
+      <div class="login-header">
+        <h1>Admin Portal</h1>
+        <p>Sign in to manage the school system</p>
+      </div>
+
+      <div class="login-form-container" style="padding-top: 1rem;">
+        <!-- Admin Login Form -->
+        <form id="admin-login" class="login-form active">
+          <div id="admin-alert" class="alert"></div>
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" id="admin-user" class="form-control" placeholder="Admin username" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="admin-pass" class="form-control" placeholder="Admin password" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Login as Admin</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="/portal.js"></script>
+  <script>
+    const session = sessionManager.getSession();
+    if (session && session.type === 'admin') {
+        window.location.href = 'dashboard.html';
+    }
+
+    document.getElementById('admin-login').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const user = document.getElementById('admin-user').value;
+      const pass = document.getElementById('admin-pass').value;
+      
+      const success = await adminApi.verifyLogin(user, pass);
+      if (success) {
+        sessionManager.createSession('admin', 'admin');
+        window.location.href = 'dashboard.html';
+      } else {
+        showAlert('admin-alert', 'Invalid admin credentials.');
+      }
+    });
+  </script>
+</body>
+</html>

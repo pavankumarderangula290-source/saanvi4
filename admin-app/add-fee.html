@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Fee - Saanvi International School</title>
+  <link rel="stylesheet" href="/portal.css">
+</head>
+<body class="portal-page">
+
+  <header class="portal-header">
+    <div class="portal-logo">
+      <img src="/images/logo.jpg" alt="Logo" width="40" height="40">
+      Add New Fee
+    </div>
+    <div class="portal-nav">
+      <a href="admin-fees.html" class="btn btn-outline">Back to Fees</a>
+      <button onclick="sessionManager.clearSession()" class="btn btn-outline">Logout</button>
+    </div>
+  </header>
+
+  <main class="portal-main" style="max-width: 600px; margin: 2rem auto; padding: 0 1rem;">
+    
+    <div class="portal-card" style="padding: 2rem;">
+      <h2 style="margin-bottom: 1.5rem;">Assign Fee to Student</h2>
+      <form id="add-fee-form">
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label class="form-label" style="display:block; margin-bottom:0.5rem; font-weight:bold;">1. Search Student</label>
+          <div style="display:flex; gap:0.5rem; margin-bottom: 0.5rem;">
+             <input type="text" id="fee-student-search" class="form-control" placeholder="Search by name or ID (e.g. STU123)" style="flex:1; padding:0.75rem; border:1px solid #ccc; border-radius:4px;">
+             <button type="button" onclick="searchStudent()" class="btn btn-outline" style="padding: 0.75rem 1.5rem;">Search</button>
+          </div>
+          <div id="search-results" style="margin-bottom: 1rem;"></div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label class="form-label" style="display:block; margin-bottom:0.5rem; font-weight:bold;">2. Selected Student ID</label>
+          <input type="text" id="fee-student-id" class="form-control" placeholder="Select a student from above or type ID" required style="width:100%; padding:0.75rem; border:1px solid #ccc; border-radius:4px; background:#f9f9f9;">
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label class="form-label" style="display:block; margin-bottom:0.5rem; font-weight:bold;">3. Fee Amount (₹)</label>
+          <input type="number" id="fee-amount" class="form-control" placeholder="e.g. 5000" required style="width:100%; padding:0.75rem; border:1px solid #ccc; border-radius:4px;">
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label class="form-label" style="display:block; margin-bottom:0.5rem; font-weight:bold;">4. Due Date</label>
+          <input type="date" id="fee-due-date" class="form-control" required style="width:100%; padding:0.75rem; border:1px solid #ccc; border-radius:4px;">
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 2rem;">
+          <label class="form-label" style="display:block; margin-bottom:0.5rem; font-weight:bold;">5. Remarks / Description</label>
+          <input type="text" id="fee-remarks" class="form-control" placeholder="e.g. Term 1 Tuition Fee" style="width:100%; padding:0.75rem; border:1px solid #ccc; border-radius:4px;">
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width:100%; padding: 1rem; font-size: 1.1rem;">Submit & Assign Fee</button>
+      </form>
+    </div>
+
+  </main>
+
+  <script src="/portal.js"></script>
+  <script src="/admin-app/add-fee.js"></script>
+</body>
+</html>

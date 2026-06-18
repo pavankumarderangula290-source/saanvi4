@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Photo Gallery — Saanvi International School. Explore our campus, events, and laboratories in Rajampet, Kadapa, Andhra Pradesh." />
+  <meta name="keywords" content="Saanvi International School gallery, campus photos, school events, laboratory, Rajampet" />
+  <meta property="og:title" content="Gallery — Saanvi International School" />
+  <meta property="og:description" content="Explore campus life, school events, and state-of-the-art labs at Saanvi International School." />
+  <meta property="og:type" content="website" />
+  <title>Gallery — Saanvi International School</title>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <!-- Shared base styles -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Gallery-specific styles -->
+  <link rel="stylesheet" href="gallery.css" />
+</head>
+
+<body class="gallery-page">
+
+  <!-- ═══════════════════════════════════════════
+       BACKGROUND LAYER — Three.js Canvas
+  ═══════════════════════════════════════════ -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════ -->
+  <header class="site-header" role="banner">
+    <nav class="nav-inner glass-pill" aria-label="Primary navigation">
+      <a href="index.html" class="nav-logo" aria-label="Saanvi International School home">
+        <span class="logo-mark">
+          <img src="images/logo.jpg" alt="Saanvi International School logo" class="logo-img" width="36" height="36" />
+        </span>
+        <span class="logo-text">Saanvi International</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html#vision"      class="nav-link">Vision</a></li>
+        <li><a href="index.html#campus"      class="nav-link">Campus</a></li>
+        <li><a href="index.html#leadership"  class="nav-link">Leadership</a></li>
+        <li><a href="gallery.html"           class="nav-link nav-link--active">Gallery</a></li>
+        <li><a href="login.html"             class="nav-link">Staff Portal</a></li>
+        <li><a href="index.html#contact"     class="nav-link nav-link--cta">Admissions</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <!-- Mobile drawer -->
+    <div id="mobile-nav" class="mobile-nav glass-deep" role="dialog" aria-modal="true" aria-label="Mobile navigation" hidden>
+      <ul role="list">
+        <li><a href="index.html#vision"     class="mobile-nav-link">Vision</a></li>
+        <li><a href="index.html#campus"     class="mobile-nav-link">Campus</a></li>
+        <li><a href="index.html#leadership" class="mobile-nav-link">Leadership</a></li>
+        <li><a href="gallery.html"          class="mobile-nav-link">Gallery</a></li>
+        <li><a href="login.html"            class="mobile-nav-link">Staff Portal</a></li>
+        <li><a href="index.html#contact"    class="mobile-nav-link">Admissions</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ═══════════════════════════════════════════
+         GALLERY HERO
+    ═══════════════════════════════════════════ -->
+    <section class="gallery-hero" aria-labelledby="gallery-heading">
+      <div class="gallery-hero-inner">
+        <div class="section-eyebrow gsap-reveal">
+          <span class="eyebrow-line" aria-hidden="true"></span>
+          <span>Photo Gallery</span>
+        </div>
+        <h1 id="gallery-heading" class="gallery-title gsap-reveal">
+          Life at<br /><span class="title-muted">Saanvi.</span>
+        </h1>
+        <p class="gallery-subtitle gsap-reveal">
+          A glimpse into our campus, events, and world-class facilities.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         FILTER TABS
+    ═══════════════════════════════════════════ -->
+    <section class="gallery-filter-section" aria-label="Filter gallery by category">
+      <div class="gallery-container">
+        <div class="filter-tabs glass-pill gsap-reveal" role="tablist" aria-label="Gallery categories">
+          <button class="filter-tab filter-tab--active" role="tab" aria-selected="true"  aria-controls="gallery-grid" data-filter="all">
+            All
+            <span class="tab-count" aria-label="7 photos total">7</span>
+          </button>
+          <button class="filter-tab" role="tab" aria-selected="false" aria-controls="gallery-grid" data-filter="campus">
+            Campus
+            <span class="tab-count" aria-label="3 campus photos">3</span>
+          </button>
+          <button class="filter-tab" role="tab" aria-selected="false" aria-controls="gallery-grid" data-filter="events">
+            Events
+            <span class="tab-count" aria-label="2 event photos">2</span>
+          </button>
+          <button class="filter-tab" role="tab" aria-selected="false" aria-controls="gallery-grid" data-filter="labs">
+            Labs
+            <span class="tab-count" aria-label="2 lab photos">2</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         GALLERY GRID
+    ═══════════════════════════════════════════ -->
+    <section class="gallery-grid-section">
+      <div class="gallery-container">
+        <div id="gallery-grid" class="gallery-grid" role="list" aria-label="Photo gallery">
+
+          <!-- Campus images -->
+          <article
+            class="gallery-card gsap-card"
+            data-category="campus"
+            data-index="0"
+            role="listitem"
+            tabindex="0"
+            aria-label="Campus photo 1 — click to view fullscreen"
+          >
+            <div class="gallery-card-img-wrap">
+              <img
+                src="images/campus1.jpg"
+                alt="Saanvi International School campus view 1"
+                class="gallery-card-img"
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+              <div class="gallery-card-overlay" aria-hidden="true">
+                <div class="overlay-icon">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <circle cx="14" cy="14" r="13" stroke="white" stroke-width="1.5"/>
+                    <path d="M9 14h10M14 9l5 5-5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <span class="gallery-card-category glass-pill-sm">Campus</span>
+            </div>
+          </article>
+
+          <article
+            class="gallery-card gsap-card"
+            data-category="campus"
+            data-index="1"
+            role="listitem"
+            tabindex="0"
+            aria-label="Campus photo 2 — click to view fullscreen"
+          >
+            <div class="gallery-card-img-wrap">
+              <img
+                src="images/campus2.jpg"
+                alt="Saanvi International School campus view 2"
+                class="gallery-card-img"
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+              <div class="gallery-card-overlay" aria-hidden="true">
+                <div class="overlay-icon">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <circle cx="14" cy="14" r="13" stroke="white" stroke-width="1.5"/>
+                    <path d="M9 14h10M14 9l5 5-5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <span class="gallery-card-category glass-pill-sm">Campus</span>
+            </div>
+          </article>
+
+          <article
+            class="gallery-card gsap-card"
+            data-category="campus"
+            data-index="2"
+            role="listitem"
+            tabindex="0"
+            aria-label="Campus photo 3 — click to view fullscreen"
+          >
+            <div class="gallery-card-img-wrap">
+              <img
+                src="images/campus3.jpg"
+                alt="Saanvi International School campus view 3"
+                class="gallery-card-img"
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+              <div class="gallery-card-overlay" aria-hidden="true">
+                <div class="overlay-icon">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <circle cx="14" cy="14" r="13" stroke="white" stroke-width="1.5"/>
+                    <path d="M9 14h10M14 9l5 5-5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <span class="gallery-card-category glass-pill-sm">Campus</span>
+            </div>
+          </article>
+
+          <!-- Events images -->
+          <article
+            class="gallery-card gsap-card"
+            data-category="events"
+            data-index="3"
+            role="listitem"
+            tabindex="0"
+            aria-label="Sports Day photo — click to view fullscreen"
+          >
+            <div class="gallery-card-img-wrap">
+              <img
+                src="images/sports-day.jpg"
+                alt="Saanvi International School Sports Day"
+                class="gallery-card-img"
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+              <div class="gallery-card-overlay" aria-hidden="true">
+                <div class="overlay-icon">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <circle cx="14" cy="14" r="13" stroke="white" stroke-width="1.5"/>
+                    <path d="M9 14h10M14 9l5 5-5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <span class="gallery-card-category glass-pill-sm">Events</span>
+            </div>
+          </article>
+
+          <article
+            class="gallery-card gsap-card"
+            data-category="events"
+            data-index="4"
+            role="listitem"
+            tabindex="0"
+            aria-label="Annual Day photo — click to view fullscreen"
+          >
+            <div class="gallery-card-img-wrap">
+              <img
+                src="images/annual-day.jpg"
+                alt="Saanvi International School Annual Day celebration"
+                class="gallery-card-img"
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+              <div class="gallery-card-overlay" aria-hidden="true">
+                <div class="overlay-icon">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <circle cx="14" cy="14" r="13" stroke="white" stroke-width="1.5"/>
+                    <path d="M9 14h10M14 9l5 5-5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <span class="gallery-card-category glass-pill-sm">Events</span>
+            </div>
+          </article>
+
+          <!-- Labs images -->
+          <article
+            class="gallery-card gsap-card"
+            data-category="labs"
+            data-index="5"
+            role="listitem"
+            tabindex="0"
+            aria-label="Science Lab photo — click to view fullscreen"
+          >
+            <div class="gallery-card-img-wrap">
+              <img
+                src="images/science-lab.jpg"
+                alt="Saanvi International School Science Laboratory"
+                class="gallery-card-img"
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+              <div class="gallery-card-overlay" aria-hidden="true">
+                <div class="overlay-icon">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <circle cx="14" cy="14" r="13" stroke="white" stroke-width="1.5"/>
+                    <path d="M9 14h10M14 9l5 5-5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <span class="gallery-card-category glass-pill-sm">Labs</span>
+            </div>
+          </article>
+
+          <article
+            class="gallery-card gsap-card"
+            data-category="labs"
+            data-index="6"
+            role="listitem"
+            tabindex="0"
+            aria-label="Computer Lab photo — click to view fullscreen"
+          >
+            <div class="gallery-card-img-wrap">
+              <img
+                src="images/computer-lab.jpg"
+                alt="Saanvi International School Computer Laboratory"
+                class="gallery-card-img"
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+              <div class="gallery-card-overlay" aria-hidden="true">
+                <div class="overlay-icon">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <circle cx="14" cy="14" r="13" stroke="white" stroke-width="1.5"/>
+                    <path d="M9 14h10M14 9l5 5-5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <span class="gallery-card-category glass-pill-sm">Labs</span>
+            </div>
+          </article>
+
+        </div><!-- /.gallery-grid -->
+
+        <!-- Empty state (shown when filter has no results) -->
+        <div class="gallery-empty" id="gallery-empty" hidden aria-live="polite">
+          <p>No photos in this category yet.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       LIGHTBOX OVERLAY
+  ═══════════════════════════════════════════ -->
+  <div
+    id="lightbox"
+    class="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Photo lightbox"
+    aria-hidden="true"
+    hidden
+  >
+    <!-- Blurred background image -->
+    <div class="lightbox-bg" id="lightbox-bg" aria-hidden="true"></div>
+
+    <!-- Top bar -->
+    <div class="lightbox-topbar">
+      <span class="lightbox-category glass-pill-sm" id="lightbox-category">Campus</span>
+      <button class="lightbox-close glass-pill-btn" id="lightbox-close" aria-label="Close lightbox">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M2 2l14 14M16 2L2 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        Close
+      </button>
+    </div>
+
+    <!-- Main image stage -->
+    <div class="lightbox-stage" id="lightbox-stage">
+      <img
+        id="lightbox-img"
+        class="lightbox-img"
+        src=""
+        alt=""
+        width="1200"
+        height="800"
+      />
+    </div>
+
+    <!-- Bottom controls -->
+    <div class="lightbox-controls">
+      <button class="lightbox-nav-btn glass-pill-btn" id="lightbox-prev" aria-label="Previous photo">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M13 4l-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <span class="lightbox-counter glass-pill-sm" id="lightbox-counter" aria-live="polite">1 / 7</span>
+
+      <button class="lightbox-nav-btn glass-pill-btn" id="lightbox-next" aria-label="Next photo">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Thumbnail strip -->
+    <div class="lightbox-thumbs" id="lightbox-thumbs" role="list" aria-label="Photo thumbnails"></div>
+
+  </div><!-- /#lightbox -->
+
+  <!-- ═══════════════════════════════════════════
+       SITE FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="footer-logo">Saanvi International School</span>
+        <span class="footer-tagline">Knowledge is Soul</span>
+      </div>
+      <div class="footer-right">
+        <p class="footer-copyright">
+          © <span id="footer-year"></span> Saanvi International School.<br />
+          Sri Annamaiah Vidyaniketan Society. All rights reserved.
+        </p>
+        <p class="footer-affiliation">CBSE Affiliation No: 130464</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Shared background particle script -->
+  <script src="app.js"></script>
+  <!-- Gallery-specific logic -->
+  <script src="gallery.js"></script>
+
+</body>
+</html>
